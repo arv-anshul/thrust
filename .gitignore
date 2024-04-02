@@ -1,0 +1,5 @@
+*.arv
+*.arv.*
+.DS_Store
+arv.*
+/target

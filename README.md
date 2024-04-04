@@ -4,11 +4,11 @@ I have learned Python programming language and now I am learning Rust programmin
 
 During my learning I am practicing and creating some programs. For example, I've built "Stone, Paper, Scissor" game and also written a small cooridantes system program in Rust.
 
-I'am learing Rust using only free resources (available on internet) from YouTube videos, Rust Books and ChatBots ([Phind.com](https://phind.com)), [perplexity.ai](https://perplexity.ai)).
+I'am learing Rust using only free resources (available on internet) from YouTube videos, Rust Books and ChatBots ([Phind.com](https://phind.com), [perplexity.ai](https://perplexity.ai)).
 
 ## 🗂️ Showcase
 
-1. [**`hand_game`**](src/bin/hand_game.rs): The "Stone, Paper, Scissor" Game
+1. [`hand_game`](src/bin/hand_game.rs): The "Stone, Paper, Scissor" Game
    - Uses `Enum`, `Struct`, `Result`, `match` statements, `while` loop, functions.
    - Uses `rand` dependency to generate random numbers.
 
@@ -16,7 +16,7 @@ I'am learing Rust using only free resources (available on internet) from YouTube
 cargo run --bin hand_game
 ```
 
-2. [**`coordinates`**](src/bin/coordinates.rs): Co-ordinate System program
+2. [`coordinates`](src/bin/coordinates.rs): Co-ordinate System program
    - Uses `Sruct`, `impl`, implement operators (`Add`, `Sub`).
    - Implement `fmt::Display` for `Point` struct.
    - Written methods like `euclidean_distance`, `is_collinear`, etc.
@@ -25,3 +25,6 @@ cargo run --bin hand_game
 ```bash
 cargo run --bin coordinates
 ```
+
+3. [`md_badges`](src/bin/md_badges.rs): Get badges for markdown using CLI.
+   - I've already written this in Python language few weeks before. Checkout the [Python version](https://gist.github.com/arv-anshul/f4ccfd9258f24ffa9769dfca9b9e091b#file-md_badges-py).

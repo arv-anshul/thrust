@@ -72,8 +72,13 @@ fn ask_playing_chances() -> u32 {
     let mut times = String::new();
     println!("How many times you want to play the game?");
     io::stdin().read_line(&mut times).expect("Failed to read!");
-    let chances: u32 = times.trim().parse().expect("Please enter a valid integer.");
-    return chances;
+    match times.trim().parse() {
+        Ok(x) => x,
+        Err(err) => {
+            println!("❌ {}", err);
+            ask_playing_chances()
+        }
+    }
 }
 
 fn main() {

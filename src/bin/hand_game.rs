@@ -1,3 +1,4 @@
+use rand::Rng;
 use std::io;
 extern crate rand;
 
@@ -35,8 +36,7 @@ fn decide_winner(user_choice: &Choice, system_choice: &Choice) -> Winner {
 }
 
 /// Generate system's choice randomly.
-fn generate_system_choice() -> Choice {
-    use rand::Rng;
+fn get_system_choice() -> Choice {
     let mut rng = rand::thread_rng();
     match rng.gen_range(0..3) {
         0 => Choice::Stone,
@@ -45,18 +45,19 @@ fn generate_system_choice() -> Choice {
     }
 }
 
-fn take_user_choice() -> Result<Choice, String> {
+fn get_user_choice() -> Choice {
     println!("Enter your choice (stone/paper/scissor):");
     let mut input = String::new();
-    io::stdin()
-        .read_line(&mut input)
-        .map_err(|_| "Failed to read line".to_string())?;
+    io::stdin().read_line(&mut input).expect("Failed to read!");
 
     match input.trim().to_lowercase().as_str() {
-        "stone" => Ok(Choice::Stone),
-        "paper" => Ok(Choice::Paper),
-        "scissor" => Ok(Choice::Scissor),
-        _ => Err("Invalid choice. Please choose 'stone', 'paper', or 'scissor'.".to_string()),
+        "stone" => Choice::Stone,
+        "paper" => Choice::Paper,
+        "scissor" => Choice::Scissor,
+        _ => {
+            println!("Invalid choice. Please pass 'stone', 'paper', or 'scissor'.");
+            get_user_choice()
+        }
     }
 }
 
@@ -84,7 +85,7 @@ fn ask_playing_chances() -> u32 {
 fn main() {
     println!("Welcome to Stone, Paper, Scissor Game!");
 
-    let mut win_cont = WinCount {
+    let mut win_count = WinCount {
         user: 0,
         system: 0,
         tie: 0,
@@ -92,32 +93,23 @@ fn main() {
 
     let mut chances = ask_playing_chances();
     while chances != 0 {
-        let user_choice = take_user_choice();
-        let system_choice = generate_system_choice();
+        let user_choice = get_user_choice();
+        let system_choice = get_system_choice();
 
-        match user_choice {
-            Ok(user_choice) => {
-                println!(
-                    "👨 Your Choice: {:?}\n🤖 System's choice: {:?}",
-                    user_choice, system_choice
-                );
+        println!(
+            "👨 Your Choice: {:?}\n🤖 System's choice: {:?}",
+            user_choice, system_choice
+        );
 
-                let winner = decide_winner(&user_choice, &system_choice);
-                match winner {
-                    Winner::User => win_cont.user += 1,
-                    Winner::System => win_cont.system += 1,
-                    Winner::Tie => win_cont.tie += 1,
-                };
-                print_winner(&winner);
-            }
-            Err(e) => {
-                println!("Error: {}", e);
-                continue;
-            }
+        let winner = decide_winner(&user_choice, &system_choice);
+        match winner {
+            Winner::User => win_count.user += 1,
+            Winner::System => win_count.system += 1,
+            Winner::Tie => win_count.tie += 1,
         };
-
+        print_winner(&winner);
         chances -= 1;
     }
 
-    println!("\nFinal result: {:?}", win_cont);
+    println!("\nFinal result: {:?}", win_count);
 }

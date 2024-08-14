@@ -20,10 +20,6 @@ impl Point {
         Point { x, y }
     }
 
-    fn print(&self) {
-        println!("({}, {})", self.x, self.y);
-    }
-
     fn origin() -> Point {
         Point { x: 0.0, y: 0.0 }
     }

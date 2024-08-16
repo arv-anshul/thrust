@@ -5,6 +5,6 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8.5"
-reqwest = { version = "0.12.2", features = ["blocking", "json"] }
-serde = { version = "1.0.197", features = ["derive"] }
-serde_json = { version = "1.0.115", features = ["alloc"] }
+
+[workspace]
+members = ["md_badges"]

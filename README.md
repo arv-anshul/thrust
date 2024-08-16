@@ -25,6 +25,3 @@ cargo run --bin hand_game
 ```bash
 cargo run --bin coordinates
 ```
-
-3. [`md_badges`](src/bin/md_badges.rs): Get badges for markdown using CLI.
-   - I've already written this in Python language few weeks before. Checkout the [Python version](https://gist.github.com/arv-anshul/f4ccfd9258f24ffa9769dfca9b9e091b#file-md_badges-py).

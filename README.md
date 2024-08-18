@@ -32,7 +32,7 @@ Learing Rust using only free resources (available on internet) from YouTube vide
    cargo run --bin coordinates
    ```
 
-   3. [`md_badges`](md_badges): CLI tool to access simpleicons md badges
+3. [`md_badges`](md_badges): CLI tool to access simpleicons md badges
 
    - Modular structure.
    - Uses `ureq` carte to fetch simpleicons data from GitHub, see [data.rs](md_badges/src/data.rs).

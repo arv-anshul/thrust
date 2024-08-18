@@ -59,8 +59,20 @@ impl Icon {
     }
 
     fn load_from_github() -> Vec<Icon> {
-        let icons_with_hex = IconHex::fetch();
-        let icons_with_slug = IconSlug::fetch();
+        let icons_with_hex = match IconHex::fetch() {
+            Ok(val) => val,
+            Err(_) => {
+                eprintln!("error while fetching icon's hex data");
+                process::exit(1);
+            }
+        };
+        let icons_with_slug = match IconSlug::fetch() {
+            Ok(val) => val,
+            Err(_) => {
+                eprintln!("error while fetching icon's slug data");
+                process::exit(1);
+            }
+        };
 
         let mut icons: Vec<Icon> = Vec::new();
         for slug in icons_with_slug.into_iter() {

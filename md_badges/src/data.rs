@@ -1,3 +1,5 @@
+use std::error;
+
 use serde::{Deserialize, Serialize};
 
 const SLUG_DATA_URL: &str = "https://github.com/simple-icons/simple-icons/raw/develop/slugs.md";
@@ -17,14 +19,8 @@ pub struct IconHex {
 }
 
 impl IconSlug {
-    pub fn fetch() -> Vec<IconSlug> {
-        let response = ureq::get(SLUG_DATA_URL)
-            .call()
-            .ok()
-            .unwrap()
-            .into_string()
-            .ok()
-            .unwrap();
+    pub fn fetch() -> Result<Vec<IconSlug>, Box<dyn error::Error>> {
+        let response = ureq::get(SLUG_DATA_URL).call()?.into_string()?;
 
         let mut slug_map: Vec<IconSlug> = Vec::new();
         for line in response.lines().skip(9) {
@@ -42,23 +38,19 @@ impl IconSlug {
                 });
             }
         }
-        return slug_map;
+        Ok(slug_map)
     }
 }
 
 impl IconHex {
-    pub fn fetch() -> Vec<IconHex> {
+    pub fn fetch() -> Result<Vec<IconHex>, Box<dyn error::Error>> {
         let response = ureq::get(ICON_JSON_URL)
-            .call()
-            .ok()
-            .unwrap()
-            .into_json::<serde_json::Value>()
-            .ok()
-            .unwrap()
+            .call()?
+            .into_json::<serde_json::Value>()?
             .get("icons")
             .unwrap()
             .to_owned();
         let hex_data = serde_json::from_value::<Vec<IconHex>>(response).unwrap();
-        return hex_data;
+        Ok(hex_data)
     }
 }

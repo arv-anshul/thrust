@@ -15,38 +15,49 @@ Already wrote this project in Python, [see](https://gist.github.com/arv-anshul/f
 
 ## Usage
 
-### Format: `url`
+Install `md_badges` binary in your system using below command:
 
 ```bash
-$ cargo run -q -- pandas,numpy,scikit url
-https://img.shields.io/badge/GeoPandas-139C5A?logo=geopandas&logoColor=fff
-https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=fff
-
-https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff
-
-https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=fff
+cargo install --git https://github.com/arv-anshul/thrust md_badges
 ```
 
-### Format: `md` (default)
+Check whether it is installed correctly in `$PATH`:
 
 ```bash
-$ cargo run -q -- python,polars  # (optional) add `md` as second argument
-![MicroPython](https://img.shields.io/badge/MicroPython-2B2728?logo=micropython&logoColor=fff)
-![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)
-![PythonAnywhere](https://img.shields.io/badge/PythonAnywhere-1D9FD7?logo=pythonanywhere&logoColor=fff)
+md_badges --version
+```
 
+Different output format of badges:
+
+- format: `markdown` _(default)_
+
+```bash
+$ md_badges python polars
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)
 ![Polars](https://img.shields.io/badge/Polars-CD792C?logo=polars&logoColor=fff)
 ```
 
-### Format: `html`
+- format: `url`
 
 ```bash
-$ cargo run -q -- rust,zed,python html
-<img src="https://img.shields.io/badge/Rust-000000?logo=rust&logoColor=fff" alt="Rust">
-<img src="https://img.shields.io/badge/RustDesk-024EFF?logo=rustdesk&logoColor=fff" alt="RustDesk">
-<img src="https://img.shields.io/badge/Trusted%20Shops-FFDC0F?logo=trustedshops&logoColor=fff" alt="Trusted Shops">
-<img src="https://img.shields.io/badge/Trustpilot-00B67A?logo=trustpilot&logoColor=fff" alt="Trustpilot">
-<img src="https://img.shields.io/badge/VirusTotal-394EFF?logo=virustotal&logoColor=fff" alt="VirusTotal">
-
-<img src="https://img.shields.io/badge/Zed%20Industries-084CCF?logo=zedindustries&logoColor=fff" alt="Zed Industries">
+$ md_badges --format url pandas numpy scikitlearn
+https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=fff
+https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff
+https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=fff
 ```
+
+- format: `html`
+
+```bash
+$ md_badges --format html rust zedindustries python
+<img src="https://img.shields.io/badge/Rust-000000?logo=rust&logoColor=fff" alt="Rust">
+<img src="https://img.shields.io/badge/Zed%20Industries-084CCF?logo=zedindustries&logoColor=fff" alt="Zed Industries">
+<img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff" alt="Python">
+```
+
+## Features
+
+- [x] Use `clap` crate and impleament all the previous fetaures.
+- [x] Add `--fetch-icons` flag which fetch icons from simpleicons github and dump fetched data at defined file path.
+- [ ] Add `--sorted-output` flag to return sorted output by `slugs`.
+- [ ] Add `--online` flag which fetch icons data from github and return output on this without storing data in file.

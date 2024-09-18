@@ -1,75 +1,55 @@
-use std::process;
-
 use crate::icon::Icon;
+use clap::Parser;
+use clap::ValueEnum;
 
-pub struct BadgeCLI {
-    pub query: Vec<String>,
-    pub format: BadgeFormat,
-}
-
+#[derive(ValueEnum, Clone)]
 pub enum BadgeFormat {
     Markdown,
     Url,
     Html,
 }
 
+#[derive(Parser)]
+#[command(version, about, long_about = None)]
+pub struct BadgeCLI {
+    /// Slug of badges
+    pub slugs: Vec<String>,
+
+    /// Output format of badges
+    #[arg(short, long, value_enum, default_value_t = BadgeFormat::Markdown)]
+    pub format: BadgeFormat,
+
+    /// Force to download new `md_badges.json` file
+    #[arg(long)]
+    pub fetch_icons: bool,
+}
+
 impl BadgeCLI {
-    pub fn new(args: &[String]) -> Self {
-        if args.len() < 2 {
-            eprintln!("error: not enough arguments");
-            process::exit(1);
-        }
-        BadgeCLI {
-            query: args[1]
-                .clone()
-                .split(',')
-                .map(|s| s.to_string())
-                .filter(|x| !x.is_empty())
-                .collect(),
-            format: if args.len() == 2 {
-                BadgeFormat::Markdown
-            } else {
-                match args[2].clone().to_lowercase().as_str() {
-                    "url" => BadgeFormat::Url,
-                    "html" => BadgeFormat::Html,
-                    "md" => BadgeFormat::Markdown,
-                    _ => {
-                        eprintln!("bad format, switching to default 'md'");
-                        BadgeFormat::Markdown
-                    }
+    pub fn icons_from_slug(&self, icons: &Vec<Icon>) -> Vec<Icon> {
+        let mut results: Vec<Icon> = Vec::new();
+        for slug in &self.slugs {
+            let mut found = false;
+            for icon in icons.into_iter() {
+                if &icon.slug == slug {
+                    results.push(icon.clone());
+                    found = true;
+                    break;
                 }
-            },
-        }
-    }
-
-    pub fn get_icon_from_slug(&self, icons: &Vec<Icon>) -> Vec<Vec<Icon>> {
-        let mut results: Vec<Vec<Icon>> = Vec::new();
-        for slug in &self.query {
-            results.push(
-                icons
-                    .iter()
-                    .filter(|icon| icon.slug.contains(slug.to_lowercase().as_str()))
-                    .cloned()
-                    .collect(),
-            );
-        }
-        return results;
-    }
-
-    pub fn pretty_print(&self, icons: &Vec<Icon>) {
-        let queried_icons = self.get_icon_from_slug(icons);
-        for icons in queried_icons {
-            for icon in icons {
-                println!(
-                    "{}",
-                    match self.format {
-                        BadgeFormat::Markdown => icon.as_markdown(),
-                        BadgeFormat::Url => icon.as_url(),
-                        BadgeFormat::Html => icon.as_html(),
-                    }
-                )
             }
-            println!();
+            if !found {
+                eprintln!("Oops! {:?} not found.", slug);
+            }
+        }
+        results
+    }
+
+    pub fn print_icons(&self, icons: &Vec<Icon>) {
+        for icon in icons {
+            match self.format {
+                BadgeFormat::Html => println!("{}", icon.as_html()),
+                BadgeFormat::Markdown => println!("{}", icon.as_markdown()),
+                BadgeFormat::Url => println!("{}", icon.as_url()),
+            }
         }
     }
 }

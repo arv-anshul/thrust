@@ -1,10 +1,11 @@
 [package]
 name = "md_badges"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "CLI tool to access SimpleIcons MD badges"
 
 [dependencies]
+clap = { version = "4.5.17", features = ["derive"] }
 dirs = "5.0.1"
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = { version = "1.0.115", features = ["alloc"] }

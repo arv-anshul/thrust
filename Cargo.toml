@@ -7,4 +7,4 @@ edition = "2021"
 rand = "0.8.5"
 
 [workspace]
-members = ["md_badges"]
+members = ["axum-crud", "md_badges"]

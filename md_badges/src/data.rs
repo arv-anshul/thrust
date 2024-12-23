@@ -47,8 +47,6 @@ impl IconHex {
         let response = ureq::get(ICON_JSON_URL)
             .call()?
             .into_json::<serde_json::Value>()?
-            .get("icons")
-            .unwrap()
             .to_owned();
         let hex_data = serde_json::from_value::<Vec<IconHex>>(response).unwrap();
         Ok(hex_data)

@@ -16,7 +16,7 @@ pub struct BadgeCLI {
     pub slugs: Vec<String>,
 
     /// Output format of badges
-    #[arg(short, long, value_enum, default_value_t = BadgeFormat::Markdown)]
+    #[arg(long, value_enum, default_value_t = BadgeFormat::Markdown)]
     pub format: BadgeFormat,
 
     /// Force to download new `md_badges.json` file

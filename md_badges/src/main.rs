@@ -10,14 +10,25 @@ use std::fs;
 fn main() {
     let cli = BadgeCLI::parse();
 
+    let icons_json_path = Icon::get_icons_json_path();
+    // Fetch and dump the icons if not exists
+    if !icons_json_path.exists() {
+        let icons = Icon::load();
+        Icon::dump(&icons).expect("Error while dumping the icons!");
+        println!("Icons cached at {:?}", icons_json_path);
+    }
+
     if cli.fetch_icons {
-        eprintln!("Downloading icons from github...");
-        let icons_json_path = Icon::get_icons_json_path();
         if icons_json_path.exists() {
-            if fs::remove_file(icons_json_path).is_err() {
-                eprintln!("Error while deleting `md_badges.json` file.");
-            }
+            fs::remove_file(&icons_json_path)
+                .expect(&format!("Error while deleting `{:?}`", icons_json_path))
         }
+
+        // Now load the icons from web and dump to path
+        println!("Downloading icons from web...");
+        let icons = Icon::load();
+        Icon::dump(&icons).expect("Error while dumping the icons!");
+        println!("Icons cached at {:?}", icons_json_path);
     }
 
     let icons = Icon::load();

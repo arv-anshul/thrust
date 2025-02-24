@@ -18,7 +18,7 @@ fn main() {
         println!("Icons cached at {:?}", icons_json_path);
     }
 
-    if cli.fetch_icons {
+    if cli.force_download {
         if icons_json_path.exists() {
             fs::remove_file(&icons_json_path)
                 .expect(&format!("Error while deleting `{:?}`", icons_json_path))

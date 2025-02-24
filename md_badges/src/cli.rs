@@ -19,9 +19,9 @@ pub struct BadgeCLI {
     #[arg(long, value_enum, default_value_t = BadgeFormat::Markdown)]
     pub format: BadgeFormat,
 
-    /// Force to download new `md_badges.json` file
+    /// Force to download the icons from web
     #[arg(long)]
-    pub fetch_icons: bool,
+    pub force_download: bool,
 }
 
 impl BadgeCLI {

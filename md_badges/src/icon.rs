@@ -58,7 +58,7 @@ impl Icon {
         Ok(serde_json::from_reader(reader)?)
     }
 
-    fn load_from_github() -> Vec<Icon> {
+    fn load_from_web() -> Vec<Icon> {
         let icons_with_hex = match IconHex::fetch() {
             Ok(val) => val,
             Err(_) => {
@@ -93,7 +93,7 @@ impl Icon {
     pub fn load() -> Vec<Icon> {
         match Icon::load_form_path() {
             Ok(x) => x,
-            Err(_) => Icon::load_from_github(),
+            Err(_) => Icon::load_from_web(),
         }
     }
 

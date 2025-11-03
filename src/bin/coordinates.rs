@@ -1,6 +1,6 @@
 use std::{
     fmt,
-    ops::{Add, Sub},
+    ops::{Add, Div, Mul, Sub},
 };
 
 #[derive(Clone)]
@@ -37,9 +37,30 @@ impl Point {
         (x + y + z) == 0.0
     }
 
-    fn move_to_quad1(self) -> Self {
+    fn to_quad1(self) -> Self {
         Self {
             x: self.x.abs(),
+            y: self.y.abs(),
+        }
+    }
+
+    fn to_quad2(self) -> Self {
+        Self {
+            x: self.x.abs(),
+            y: -self.y.abs(),
+        }
+    }
+
+    fn to_quad3(self) -> Self {
+        Self {
+            x: -self.x.abs(),
+            y: -self.y.abs(),
+        }
+    }
+
+    fn to_quad4(self) -> Self {
+        Self {
+            x: -self.x.abs(),
             y: self.y.abs(),
         }
     }
@@ -67,6 +88,28 @@ impl Sub for Point {
     }
 }
 
+impl Mul for Point {
+    type Output = Point;
+
+    fn mul(self, other: Point) -> Point {
+        Point {
+            x: self.x * other.x,
+            y: self.y * other.y,
+        }
+    }
+}
+
+impl Div for Point {
+    type Output = Point;
+
+    fn div(self, other: Point) -> Point {
+        Point {
+            x: self.x / other.x,
+            y: self.y / other.y,
+        }
+    }
+}
+
 fn main() {
     let p1 = Point::new(1.0, 2.0);
     let p2 = Point::new(2.0, 4.0);
@@ -78,13 +121,13 @@ fn main() {
 
     // Calculate euclidean distance
     println!(
-        "> Euclidian Distance between {} and {} is {}",
+        "> Euclidean Distance between {} and {} is {}",
         p3,
         p1,
         p3.euclidean_distance(&p1),
     );
 
-    // Colliear points
+    // Collinear points
     println!(
         "> Are Points {}, {} and {} are collinear? {}",
         p1,
@@ -99,8 +142,23 @@ fn main() {
     // Move to 1st Quadrant
     let temp_point = Point::new(-1.8, -4.9);
     println!(
-        "> Move point {} to 1st quadrant by converting it values positive: {}",
+        "> Move point {} to 1st quadrant: {}",
         temp_point,
-        temp_point.clone().move_to_quad1()
+        temp_point.clone().to_quad1()
+    );
+    println!(
+        "> Move point {} to 2nd quadrant: {}",
+        temp_point,
+        temp_point.clone().to_quad2()
+    );
+    println!(
+        "> Move point {} to 3rd quadrant: {}",
+        temp_point,
+        temp_point.clone().to_quad3()
+    );
+    println!(
+        "> Move point {} to 4th quadrant: {}",
+        temp_point,
+        temp_point.clone().to_quad4()
     );
 }

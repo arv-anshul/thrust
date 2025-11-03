@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 const SLUG_DATA_URL: &str = "https://github.com/simple-icons/simple-icons/raw/develop/slugs.md";
 const ICON_JSON_URL: &str =
-    "https://github.com/simple-icons/simple-icons/raw/develop/_data/simple-icons.json";
+    "https://github.com/simple-icons/simple-icons/raw/develop/data/simple-icons.json";
 
 #[derive(Deserialize, Serialize)]
 pub struct IconSlug {

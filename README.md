@@ -5,15 +5,13 @@ concepts like Stack, Heap, Ownership & Borrowing (specific to Rust), different d
 `char`, ...), etc.
 
 During my learning I am practicing and creating some programs. For example, I've built "Stone, Paper, Scissor" game and
-also written a small cooridantes system program in Rust.
+written a small coordinates system program in Rust.
 
-Learing Rust using only free resources (available on internet) from YouTube videos, Rust Books and ChatBots (
-[Phind.com](https://phind.com), [perplexity.ai](https://perplexity.ai)).
+Learning Rust using only free resources (available on internet) from YouTube videos, Rust Books and Chat bots.
 
 ## 🗂️ Showcase
 
 1. [`hand_game`](src/bin/hand_game.rs): The "Stone, Paper, Scissor" Game
-
    - Uses `Enum`, `Struct`, `Result`, `match` statements, `while` loop, functions.
    - Uses `rand` crate to generate random numbers.
 
@@ -22,8 +20,7 @@ Learing Rust using only free resources (available on internet) from YouTube vide
    ```
 
 2. [`coordinates`](src/bin/coordinates.rs): Co-ordinate System program
-
-   - Uses `Sruct`, `impl`, implement operators (`Add`, `Sub`).
+   - Uses `Struct`, `impl`, implement operators (`Add`, `Sub`).
    - Implement `fmt::Display` for `Point` struct.
    - Written methods like `euclidean_distance`, `is_collinear`, etc.
    - This is not a game or any CLI program. Just practicing `strcut`.
@@ -32,8 +29,7 @@ Learing Rust using only free resources (available on internet) from YouTube vide
    cargo run --bin coordinates
    ```
 
-3. [`md_badges`](md_badges): CLI tool to access simpleicons md badges
-
+3. [`md_badges`](crates/md_badges): CLI tool to access simpleicons md badges
    - Modular structure.
    - Uses `ureq` carte to fetch simpleicons data from GitHub, see [data.rs](md_badges/src/data.rs).
    - Uses `serde` for obvious reasons.
@@ -41,5 +37,11 @@ Learing Rust using only free resources (available on internet) from YouTube vide
    - See [md_badges/README.md](md_badges/README.md).
 
    ```bash
-   cargo run -p md_badges
+   cargo run -q -p md_badges -- python pandas
+   ```
+
+4. [`advent_of_code`](crates/advent_of_code): Solving problems of [**Advent of Code**](https://adventofcode.com) events using Rust so that I can learn it.
+
+   ```bash
+   cargo run -q -p advent_of_code --bin day01 crates/advent_of_code/data/day1.txt
    ```

@@ -43,5 +43,5 @@ Learning Rust using only free resources (available on internet) from YouTube vid
 4. [`advent_of_code`](crates/advent_of_code): Solving problems of [**Advent of Code**](https://adventofcode.com) events using Rust so that I can learn it.
 
    ```bash
-   cargo run -q -p advent_of_code --bin day01 crates/advent_of_code/data/day1.txt
+   cargo run -q -p advent_of_code --bin day01 crates/advent_of_code/data/day01.txt
    ```

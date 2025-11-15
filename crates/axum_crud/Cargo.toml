@@ -1,5 +1,5 @@
 [package]
-name = "axum-crud"
+name = "axum_crud"
 version = "0.1.0"
 edition = "2021"
 

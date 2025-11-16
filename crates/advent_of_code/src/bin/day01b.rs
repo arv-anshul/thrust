@@ -1,7 +1,6 @@
 use std::{env, fs};
 
-fn read_data_filename() -> String {
-    let args = env::args();
+fn read_data_filename<'a>(args: &'a [String]) -> &'a str {
     if args.len() < 2 {
         panic!("Please specify data filepath.");
     }
@@ -17,7 +16,8 @@ fn main() {
     let mut right_vec: Vec<u32> = vec![];
 
     // Read file and split lines
-    for val in fs::read_to_string(read_data_filename())
+    let args = &env::args().into_iter().collect::<Vec<String>>();
+    for val in fs::read_to_string(read_data_filename(args))
         .expect("read data file")
         .lines()
     {

@@ -1,17 +1,7 @@
 use std::{env, fs};
 
+use advent_of_code::read_data_filename;
 use regex::Regex;
-
-fn read_data_filename<'a>(args: &'a [String]) -> &'a str {
-    if args.len() < 2 {
-        panic!("Please specify data filepath.");
-    }
-
-    match args.last() {
-        Some(filename) => filename,
-        None => panic!("Please specify data filepath."),
-    }
-}
 
 fn mul(a: i32, b: i32) -> i32 {
     a * b

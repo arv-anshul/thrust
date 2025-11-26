@@ -19,21 +19,21 @@ Learning Rust using only free resources (available on internet) from YouTube vid
    cargo run --bin hand_game
    ```
 
-2. [`coordinates`](src/bin/coordinates.rs): Co-ordinate System program
+2. [`point`](src/bin/point.rs): Co-ordinate System program
    - Uses `Struct`, `impl`, implement operators (`Add`, `Sub`).
    - Implement `fmt::Display` for `Point` struct.
    - Written methods like `euclidean_distance`, `is_collinear`, etc.
-   - This is not a game or any CLI program. Just practicing `strcut`.
+   - This is not a game or any CLI program. Just practicing structs, traits, and type generics.
 
    ```bash
-   cargo run --bin coordinates
+   cargo run --bin point
    ```
 
-3. [`md_badges`](crates/md_badges): CLI tool to access simpleicons md badges
+3. [`md_badges`](crates/md_badges): CLI tool to access SimpleIcons MD badges
    - Modular structure.
    - Uses `ureq` carte to fetch simpleicons data from GitHub, see [data.rs](md_badges/src/data.rs).
    - Uses `serde` for obvious reasons.
-   - Uses `std::env` crate for cli args parsing.
+   - Uses `clap` crate for CLI arguments parsing.
    - See [md_badges/README.md](md_badges/README.md).
 
    ```bash

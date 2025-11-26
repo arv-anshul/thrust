@@ -1,4 +1,5 @@
 use crate::model::{User, UserInfo};
+use log::{error, info, trace};
 use sqlx::{Error, Executor, Sqlite, SqlitePool, migrate::MigrateDatabase};
 
 #[derive(Clone)]
@@ -13,7 +14,7 @@ impl UserService {
         }
 
         let pool = SqlitePool::connect(&url).await?;
-        println!("Connected with database!");
+        trace!("Connected with database!");
 
         // Add dummy data into database
         UserService::add_dummy_data(&pool).await?;
@@ -22,7 +23,7 @@ impl UserService {
     }
 
     async fn add_dummy_data(pool: &SqlitePool) -> Result<(), Error> {
-        println!("Creating dummy database.");
+        trace!("Creating dummy database.");
 
         // Create the table if it doesn't exist
         pool.execute(
@@ -40,7 +41,7 @@ impl UserService {
             .fetch_one(pool)
             .await?;
         if count > 0 {
-            println!("Skip adding dummy data.");
+            info!("Skip adding dummy data.");
             return Ok(());
         }
 
@@ -72,7 +73,7 @@ impl UserService {
     }
 
     pub async fn get_user_by_id(&self, id: i32) -> Result<UserInfo, Error> {
-        let user = sqlx::query_as::<_, UserInfo>("SELECT * FROM users WHERE id=$1")
+        let user = sqlx::query_as::<_, UserInfo>("SELECT * FROM users WHERE id=$1; DROP id;")
             .bind(id)
             .fetch_one(&self.pool)
             .await?;
@@ -118,6 +119,7 @@ impl UserService {
 
         // Return an error if the ID doesn't exist in the database
         if !exists {
+            error!("Row not found for user id={id}!");
             return Err(Error::RowNotFound);
         }
 

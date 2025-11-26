@@ -4,11 +4,17 @@ mod user_service;
 use axum::Extension;
 use axum::Router;
 use axum::routing::*;
+use log::{info, trace};
 use user_service::UserService;
 
 #[tokio::main]
 async fn main() {
-    println!("Starting server!");
+    // 1. Initialize the logger
+    // This looks for the RUST_LOG environment variable to determine what level to log.
+    // If RUST_LOG is not set, it defaults to a reasonable level like "warn".
+    env_logger::init();
+
+    trace!("Starting server!");
 
     // Added `.arv.` in the db filename to ignore from git
     let user_service = match UserService::new("sqlite://data.arv.sqlite").await {
@@ -25,7 +31,7 @@ async fn main() {
         .layer(Extension(user_service));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await.unwrap();
-    println!(
+    info!(
         "Listening at port http://localhost:{}",
         listener.local_addr().unwrap().port()
     );

@@ -7,4 +7,12 @@ edition = "2021"
 rand = "0.8.5"
 
 [workspace]
-members = ["crates/*"]
+members = [
+    "crates/advent_of_code",
+    "crates/axum_crud",
+    "crates/crud_api",
+    "crates/md_badges",
+]
+exclude = [
+    "projects/rlog",
+]

@@ -1,0 +1,16 @@
+[package]
+name = "rlog"
+description = "Read release note of GitHub repositories from terminal."
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = { version = "0.4.42", features = ["serde"] }
+clap = { version = "4.5.54", features = ["derive"] }
+diesel = { version = "2.3.5", features = ["chrono", "returning_clauses_for_sqlite_3_35", "sqlite"] }
+dotenv = "0.15.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+tabled = "0.20.0"
+termimad = "0.34.1"
+ureq = { version = "3.1.4", features = ["json"] }

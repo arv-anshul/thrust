@@ -46,3 +46,6 @@ Learning Rust using only free resources (available on internet) from YouTube vid
    ```bash
    cargo run -q -p advent_of_code --bin day01 crates/advent_of_code/data/day01.txt
    ```
+
+5. [`rlog`](projects/rlog): Read release note of GitHub repositories from terminal. See
+   [README](projects/rlog/README.md).

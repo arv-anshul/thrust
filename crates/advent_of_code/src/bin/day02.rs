@@ -3,7 +3,7 @@ use std::{env, fs};
 
 fn main() {
     // Read file and split lines
-    let args = &env::args().into_iter().collect::<Vec<String>>();
+    let args = &env::args().collect::<Vec<String>>();
     let result_vec: Vec<bool> = fs::read_to_string(read_data_filename(args))
         .expect("read data file")
         .lines()
@@ -37,7 +37,7 @@ fn main() {
                 }
                 curr_num = next_num;
             }
-            return true;
+            true
         })
         .collect();
 

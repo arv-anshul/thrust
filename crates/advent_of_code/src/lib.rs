@@ -1,4 +1,4 @@
-pub fn read_data_filename<'a>(args: &'a [String]) -> &'a str {
+pub fn read_data_filename(args: &[String]) -> &str {
     if args.len() < 2 {
         panic!("Please specify data filepath.");
     }

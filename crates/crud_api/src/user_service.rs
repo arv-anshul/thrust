@@ -9,11 +9,11 @@ pub struct UserService {
 
 impl UserService {
     pub async fn new(url: &str) -> Result<Self, Error> {
-        if !Sqlite::database_exists(&url).await.unwrap_or(false) {
-            Sqlite::create_database(&url).await?;
+        if !Sqlite::database_exists(url).await.unwrap_or(false) {
+            Sqlite::create_database(url).await?;
         }
 
-        let pool = SqlitePool::connect(&url).await?;
+        let pool = SqlitePool::connect(url).await?;
         trace!("Connected with database!");
 
         // Add dummy data into database
@@ -95,7 +95,7 @@ impl UserService {
     pub async fn update_user(&self, id: i32, user: UserInfo) -> Result<UserInfo, Error> {
         // Update user info
         sqlx::query("UPDATE users SET name = $2, age = $3, email = $4 WHERE id = $1")
-            .bind(&id)
+            .bind(id)
             .bind(user.name)
             .bind(user.age)
             .bind(user.email)
@@ -104,7 +104,7 @@ impl UserService {
 
         // Fetch the updated data to return
         let updated_user = sqlx::query_as::<_, UserInfo>("SELECT * FROM users WHERE id=$1")
-            .bind(&id)
+            .bind(id)
             .fetch_one(&self.pool)
             .await?;
 

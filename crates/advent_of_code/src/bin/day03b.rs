@@ -9,7 +9,7 @@ fn mul(a: i32, b: i32) -> i32 {
 
 fn main() {
     // Read file and split lines
-    let args = &env::args().into_iter().collect::<Vec<String>>();
+    let args = &env::args().collect::<Vec<String>>();
     // Keep file contents alive
     let text = fs::read_to_string(read_data_filename(args)).expect("read data file");
 

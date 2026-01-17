@@ -65,13 +65,13 @@ impl<T: Coordinate> fmt::Display for Point<T> {
     }
 }
 
-impl Into<Point<f64>> for Point<f32> {
+impl From<Point<f32>> for Point<f64> {
     /// Converts Point<f32> to Point<f64>
-    fn into(self) -> Point<f64> {
+    fn from(val: Point<f32>) -> Self {
         Point {
             // Use the into() method from the f32 implementation above
-            x: self.x.into(),
-            y: self.y.into(),
+            x: val.x.into(),
+            y: val.y.into(),
         }
     }
 }
@@ -188,10 +188,10 @@ fn main() {
 
     // Arithmetic operations on Points
     println!();
-    println!("> Add: {} + {} = {}", p1, p2, p1.clone() + p2.clone());
-    println!("> Sub: {} - {} = {}", p1, p2, p1.clone() - p2.clone());
-    println!("> Mul: {} * {} = {}", p1, p2, p1.clone() * p2.clone());
-    println!("> Div: {} ÷ {} = {}", p1, p2, p1.clone() / p2.clone());
+    println!("> Add: {} + {} = {}", p1, p2, p1 + p2);
+    println!("> Sub: {} - {} = {}", p1, p2, p1 - p2);
+    println!("> Mul: {} * {} = {}", p1, p2, p1 * p2);
+    println!("> Div: {} ÷ {} = {}", p1, p2, p1 / p2);
 
     // Calculate euclidean distance
     println!();
@@ -205,26 +205,10 @@ fn main() {
     // Move to different Quadrants
     println!();
     let p3 = Point::new(-1.8, -4.9);
-    println!(
-        "> Move point {} to 1st quadrant: {}",
-        p3,
-        p3.clone().to_quad1()
-    );
-    println!(
-        "> Move point {} to 2nd quadrant: {}",
-        p3,
-        p3.clone().to_quad2()
-    );
-    println!(
-        "> Move point {} to 3rd quadrant: {}",
-        p3,
-        p3.clone().to_quad3()
-    );
-    println!(
-        "> Move point {} to 4th quadrant: {}",
-        p3,
-        p3.clone().to_quad4()
-    );
+    println!("> Move point {} to 1st quadrant: {}", p3, p3.to_quad1());
+    println!("> Move point {} to 2nd quadrant: {}", p3, p3.to_quad2());
+    println!("> Move point {} to 3rd quadrant: {}", p3, p3.to_quad3());
+    println!("> Move point {} to 4th quadrant: {}", p3, p3.to_quad4());
 
     // Check collinear
     println!();

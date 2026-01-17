@@ -25,11 +25,11 @@ pub struct BadgeCLI {
 }
 
 impl BadgeCLI {
-    pub fn icons_from_slug(&self, icons: &Vec<Icon>) -> Vec<Icon> {
+    pub fn icons_from_slug(&self, icons: &[Icon]) -> Vec<Icon> {
         let mut results: Vec<Icon> = Vec::new();
         for slug in &self.slugs {
             let mut found = false;
-            for icon in icons.into_iter() {
+            for icon in icons.iter() {
                 if &icon.slug == slug {
                     results.push(icon.clone());
                     found = true;

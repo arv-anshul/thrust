@@ -21,7 +21,7 @@ fn main() {
     if cli.force_download {
         if icons_json_path.exists() {
             fs::remove_file(&icons_json_path)
-                .expect(&format!("Error while deleting `{:?}`", icons_json_path))
+                .unwrap_or_else(|_| panic!("Error while deleting `{:?}`", icons_json_path))
         }
 
         // Now load the icons from web and dump to path

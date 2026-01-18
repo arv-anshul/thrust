@@ -27,6 +27,7 @@ Just learning Rust and concepts from this project.
 - [x] `diesel`: Type safe ORM for Rust. _(but it's only synchronous)_
   - [x] Table declaration and CRUD operations.
   - [x] Implement table relationship.
+  - [x] Implement cascade delete for `repo_releases` table.
 - [x] Use **Clippy** for linting.
 - [ ] Introduce Rust lifetime to struct.
 - [ ] Async implementation.

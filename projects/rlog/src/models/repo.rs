@@ -16,7 +16,6 @@ pub struct RepoEntityRow {
 }
 
 #[derive(Insertable, Debug, Clone, Serialize, Deserialize)]
-#[serde(try_from = "String", into = "String")]
 #[diesel(table_name = crate::schema::repos)]
 pub struct RepoEntity {
     pub owner: String,

@@ -23,12 +23,12 @@ pub struct RepoReleaseRow {
 
 #[derive(Insertable, Debug, Clone, Tabled)]
 #[diesel(table_name = crate::schema::repo_releases)]
-pub struct NewRepoRelease {
+pub struct NewRepoRelease<'a> {
     pub repo_id: i32,
-    pub url: String,
-    pub html_url: String,
-    pub tag_name: String,
-    pub body: String,
+    pub url: &'a str,
+    pub html_url: &'a str,
+    pub tag_name: &'a str,
+    pub body: &'a str,
     pub created_at: NaiveDateTime,
 }
 
@@ -61,13 +61,13 @@ impl RepoReleaseAPI {
 
     /// Converts the API response into a database insertable struct
     #[allow(clippy::wrong_self_convention)]
-    pub fn to_insterable(self, repo_id: i32) -> NewRepoRelease {
+    pub fn to_insterable<'a>(&'a self, repo_id: i32) -> NewRepoRelease<'a> {
         NewRepoRelease {
             repo_id,
-            url: self.url,
-            html_url: self.html_url,
-            tag_name: self.tag_name,
-            body: self.body,
+            url: &self.url,
+            html_url: &self.html_url,
+            tag_name: &self.tag_name,
+            body: &self.body,
             created_at: self.created_at,
         }
     }

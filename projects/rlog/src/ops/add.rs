@@ -18,9 +18,11 @@ pub fn add_repo_releases(
     repo_id: i32,
     last_n: u8,
 ) {
-    let releases = RepoReleaseAPI::fetch_repo_releases(entity, last_n)
-        .unwrap()
-        .into_iter()
+    let releases =
+        RepoReleaseAPI::fetch_repo_releases(entity, last_n).expect("Falied to fetch releases");
+
+    let releases = releases
+        .iter()
         .map(|r| r.to_insterable(repo_id))
         .collect::<Vec<NewRepoRelease>>();
 

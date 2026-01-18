@@ -5,7 +5,7 @@ use tabled::Tabled;
 
 use crate::models::repo::RepoEntity;
 
-#[derive(Debug, Queryable, Selectable, Tabled)]
+#[derive(Queryable, Selectable, Tabled)]
 #[diesel(table_name = crate::schema::repo_releases)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 #[tabled(rename_all = "PascalCase")]
@@ -21,7 +21,7 @@ pub struct RepoReleaseRow {
     pub created_at: NaiveDateTime,
 }
 
-#[derive(Insertable, Debug, Clone, Tabled)]
+#[derive(Insertable, Clone, Tabled)]
 #[diesel(table_name = crate::schema::repo_releases)]
 pub struct NewRepoRelease<'a> {
     pub repo_id: i32,
@@ -32,7 +32,7 @@ pub struct NewRepoRelease<'a> {
     pub created_at: NaiveDateTime,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct RepoReleaseAPI {
     pub url: String,
     pub html_url: String,

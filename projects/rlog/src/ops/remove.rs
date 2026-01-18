@@ -8,7 +8,7 @@ pub fn remove_repo(conn: &mut SqliteConnection, entity: &RepoEntity) {
         .filter(repos::owner.eq(&entity.owner))
         .filter(repos::name.eq(&entity.name))
         .select(repos::id)
-        .get_result::<i32>(conn);
+        .first::<i32>(conn);
 
     match repo_id {
         Ok(repo_id) => {

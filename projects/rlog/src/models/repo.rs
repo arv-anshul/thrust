@@ -5,7 +5,7 @@ use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 use tabled::Tabled;
 
-#[derive(Debug, Queryable, Selectable, Tabled)]
+#[derive(Queryable, Selectable, Tabled)]
 #[diesel(table_name = crate::schema::repos)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 #[tabled(rename_all = "PascalCase")]

@@ -40,7 +40,7 @@ pub fn list_repo_releases(conn: &mut SqliteConnection, repo_entity: Option<&Repo
                 .select(repos::id)
                 .first(conn)
                 .unwrap_or_else(|_| {
-                    eprintln!("Repository {:?} not found!", repo);
+                    eprintln!("Repository '{}' not found!", repo);
                     std::process::exit(1);
                 });
             repo_releases::table

@@ -18,7 +18,7 @@ pub fn show_releases(conn: &mut SqliteConnection, repo: &RepoEntity) {
         .select(repos::id)
         .first(conn)
         .unwrap_or_else(|_| {
-            eprintln!("Repository {:?} not found!", repo);
+            eprintln!("Repository '{}' not found!", repo);
             std::process::exit(1);
         });
     let release_note = repo_releases::table

@@ -1,14 +1,8 @@
 use crate::models::{repo::RepoEntity, repo::RepoEntityRow, repo_release::RepoReleaseRow};
 use crate::schema::*;
+use crate::utils::table::display_table;
 
 use diesel::prelude::*;
-use tabled::{
-    Table,
-    settings::{
-        Alignment, Color, Style,
-        object::{Columns, Rows},
-    },
-};
 
 pub fn list_repos(conn: &mut SqliteConnection) {
     match repos::table.load::<RepoEntityRow>(conn) {
@@ -18,13 +12,7 @@ pub fn list_repos(conn: &mut SqliteConnection) {
                 return;
             }
 
-            let mut table = Table::new(repos_vec);
-            table.with(Style::modern_rounded());
-            table.modify(Columns::first(), Alignment::right());
-            table.modify(Columns::first(), Color::rgb_fg(255, 200, 0));
-            table.modify(Rows::first(), Color::rgb_fg(255, 0, 0));
-
-            println!("{}", table);
+            display_table(&repos_vec);
         }
         Err(e) => eprintln!("Error listing repos: {e}"),
     }
@@ -62,11 +50,5 @@ pub fn list_repo_releases(conn: &mut SqliteConnection, repo_entity: Option<&Repo
         std::process::exit(1);
     }
 
-    let mut table = Table::new(results);
-    table.with(Style::modern_rounded());
-    table.modify(Columns::first(), Alignment::right());
-    table.modify(Columns::first(), Color::rgb_fg(255, 200, 0));
-    table.modify(Rows::first(), Color::rgb_fg(255, 0, 0));
-
-    println!("{}", table);
+    display_table(&results);
 }

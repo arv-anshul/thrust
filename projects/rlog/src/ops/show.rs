@@ -1,15 +1,7 @@
 use crate::models::repo::RepoEntity;
 use crate::schema::*;
+use crate::utils::markdown::display_markdown;
 use diesel::prelude::*;
-use termimad::crossterm::style::Color;
-use termimad::*;
-
-fn print_release_note(body: &str) {
-    let mut skin = MadSkin::default();
-    skin.set_headers_fg(Color::Magenta);
-
-    skin.print_text(body);
-}
 
 pub fn show_releases(conn: &mut SqliteConnection, repo: &RepoEntity) {
     let repo_id: i32 = repos::table
@@ -28,5 +20,5 @@ pub fn show_releases(conn: &mut SqliteConnection, repo: &RepoEntity) {
         .first::<String>(conn)
         .expect("Error getting release note");
 
-    print_release_note(&release_note);
+    display_markdown(release_note);
 }

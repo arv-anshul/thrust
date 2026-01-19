@@ -1,9 +1,9 @@
-#[allow(unused, dead_code)]
 mod args;
 mod db;
 mod models;
 mod ops;
 mod schema;
+mod sql;
 mod utils;
 
 use clap::Parser;

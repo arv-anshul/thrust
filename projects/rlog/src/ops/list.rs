@@ -1,5 +1,7 @@
-use crate::models::{repo::RepoEntity, repo::RepoEntityRow, repo_release::RepoReleaseRow};
+use crate::models::repo::RepoEntity;
 use crate::schema::*;
+use crate::sql::repo::RepoEntityRow;
+use crate::sql::repo_release::RepoReleaseRow;
 use crate::utils::table::display_table;
 
 use diesel::prelude::*;
@@ -22,17 +24,12 @@ pub fn list_repo_releases(conn: &mut SqliteConnection, repo_entity: Option<&Repo
     let results: Vec<RepoReleaseRow> = match repo_entity {
         // Filter for requested repository
         Some(repo) => {
-            let repo_id: i32 = repos::table
-                .filter(repos::owner.eq(&repo.owner))
-                .filter(repos::name.eq(&repo.name))
-                .select(repos::id)
-                .first(conn)
-                .unwrap_or_else(|_| {
-                    eprintln!("Repository '{}' not found!", repo);
-                    std::process::exit(1);
-                });
+            let repo = repo.get_from_db(conn).unwrap_or_else(|_| {
+                eprintln!("Repository '{}' not found!", repo);
+                std::process::exit(1);
+            });
             repo_releases::table
-                .filter(repo_releases::repo_id.eq(repo_id))
+                .filter(repo_releases::repo_id.eq(repo.id))
                 .load(conn)
                 .expect("Error loading Repo releases")
         }

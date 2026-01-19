@@ -1,36 +1,7 @@
 use chrono::{DateTime, NaiveDateTime};
-use diesel::prelude::*;
 use serde::{Deserialize, Deserializer, Serialize};
-use tabled::Tabled;
 
-use crate::models::repo::RepoEntity;
-
-#[derive(Queryable, Selectable, Tabled)]
-#[diesel(table_name = crate::schema::repo_releases)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-#[tabled(rename_all = "PascalCase")]
-pub struct RepoReleaseRow {
-    pub id: i32,
-    pub repo_id: i32,
-    #[tabled(skip)]
-    pub url: String,
-    pub html_url: String,
-    pub tag_name: String,
-    #[tabled(skip)]
-    pub body: String,
-    pub created_at: NaiveDateTime,
-}
-
-#[derive(Insertable, Clone, Tabled)]
-#[diesel(table_name = crate::schema::repo_releases)]
-pub struct NewRepoRelease<'a> {
-    pub repo_id: i32,
-    pub url: &'a str,
-    pub html_url: &'a str,
-    pub tag_name: &'a str,
-    pub body: &'a str,
-    pub created_at: NaiveDateTime,
-}
+use crate::{models::repo::RepoEntity, sql::repo_release::NewRepoRelease};
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct RepoReleaseAPI {

@@ -3,17 +3,9 @@ use std::{fmt, str};
 
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
-use tabled::Tabled;
 
-#[derive(Queryable, Selectable, Tabled)]
-#[diesel(table_name = crate::schema::repos)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-#[tabled(rename_all = "PascalCase")]
-pub struct RepoEntityRow {
-    pub id: i32,
-    pub owner: String,
-    pub name: String,
-}
+use crate::schema::repos;
+use crate::sql::repo::RepoEntityRow;
 
 #[derive(Insertable, Debug, Clone, Serialize, Deserialize)]
 #[diesel(table_name = crate::schema::repos)]
@@ -32,6 +24,27 @@ impl RepoEntity {
             .trim_end_matches(".git");
 
         RepoEntity::from_str(remainder)
+    }
+
+    /// Get the entity from database
+    pub fn get_from_db(
+        &self,
+        conn: &mut SqliteConnection,
+    ) -> Result<RepoEntityRow, diesel::result::Error> {
+        repos::table
+            .filter(repos::owner.eq(&self.owner))
+            .filter(repos::name.eq(&self.name))
+            // .select(repos::id)
+            .first::<RepoEntityRow>(conn)
+    }
+
+    /// Insert the current entity into database
+    pub fn insert_into_db(&self, conn: &mut SqliteConnection) -> i32 {
+        diesel::insert_into(repos::table)
+            .values(self)
+            .returning(repos::id)
+            .get_result::<i32>(conn)
+            .unwrap_or_else(|_| panic!("Error adding repository '{}'", self))
     }
 }
 

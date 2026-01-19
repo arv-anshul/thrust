@@ -1,26 +1,14 @@
 use diesel::prelude::*;
 
-use crate::models::repo_release::NewRepoRelease;
 use crate::models::{repo::RepoEntity, repo_release::RepoReleaseAPI};
-use crate::schema::*;
+use crate::sql::repo_release::NewRepoRelease;
 
 pub fn add_repo(conn: &mut SqliteConnection, entity: &RepoEntity) -> i32 {
-    let count = repos::table
-        .filter(repos::owner.eq(&entity.owner))
-        .filter(repos::name.eq(&entity.name))
-        .count()
-        .get_result::<i64>(conn)
-        .expect("Error querying database");
-    if count > 0 {
+    if entity.get_from_db(conn).is_ok() {
         eprintln!("Repository '{}' already exists!", entity);
         std::process::exit(1);
     }
-
-    diesel::insert_into(repos::table)
-        .values(entity)
-        .returning(repos::id)
-        .get_result::<i32>(conn)
-        .unwrap_or_else(|_| panic!("Error adding repository '{}'", entity))
+    entity.insert_into_db(conn)
 }
 
 pub fn add_repo_releases(
@@ -37,8 +25,5 @@ pub fn add_repo_releases(
         .map(|r| r.to_insterable(repo_id))
         .collect::<Vec<NewRepoRelease>>();
 
-    diesel::insert_into(repo_releases::table)
-        .values(releases)
-        .execute(conn)
-        .expect("Not able to insert repo releases");
+    NewRepoRelease::batch_insert_into_db(conn, &releases);
 }

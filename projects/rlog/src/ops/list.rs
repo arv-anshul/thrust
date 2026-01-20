@@ -2,7 +2,7 @@ use crate::models::repo::RepoEntity;
 use crate::schema::*;
 use crate::sql::repo::RepoEntityRow;
 use crate::sql::repo_release::RepoReleaseRow;
-use crate::utils::table::display_table;
+use crate::utils::table::create_table;
 
 use diesel::prelude::*;
 
@@ -14,7 +14,7 @@ pub fn list_repos(conn: &mut SqliteConnection) {
                 return;
             }
 
-            display_table(&repos_vec);
+            println!("{}", create_table(&repos_vec));
         }
         Err(e) => eprintln!("Error listing repos: {e}"),
     }
@@ -47,5 +47,5 @@ pub fn list_repo_releases(conn: &mut SqliteConnection, repo_entity: Option<&Repo
         std::process::exit(1);
     }
 
-    display_table(&results);
+    println!("{}", create_table(&results));
 }

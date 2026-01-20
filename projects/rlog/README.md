@@ -37,5 +37,5 @@ Just learning Rust and concepts from this project.
   - [x] `tabled`: Table creation and displaying.
   - [x] Database tables and Serde models.
   - [x] `crate::ops::*` crate functions.
-- [ ] Write tests.
+- [x] Write tests.
 - [ ] Publish `rlog` bin from GitHub Action to repository releases. _Just like other tools._

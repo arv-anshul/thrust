@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use crate::schema::repos;
 use crate::sql::repo::RepoEntityRow;
 
-#[derive(Insertable, Debug, Clone, Serialize, Deserialize)]
+#[derive(Insertable, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[diesel(table_name = crate::schema::repos)]
 pub struct RepoEntity {
     pub owner: String,
@@ -91,10 +91,50 @@ impl From<RepoEntity> for String {
     }
 }
 
+// TODO: Remove this as I find it redundant w.r.t. TryFrom<&str> implementation
 impl TryFrom<String> for RepoEntity {
     type Error = <RepoEntity as FromStr>::Err;
 
     fn try_from(value: String) -> Result<Self, Self::Error> {
         RepoEntity::from_str(&value)
+    }
+}
+
+impl TryFrom<&str> for RepoEntity {
+    type Error = <RepoEntity as FromStr>::Err;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        RepoEntity::from_str(value)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::RepoEntity;
+
+    #[test]
+    fn test_to_string() {
+        let entity = RepoEntity {
+            owner: "arv-anshul".into(),
+            name: "thrust".into(),
+        };
+        let entity2: RepoEntity = "arv-anshul/thrust".try_into().unwrap();
+        assert_eq!(entity, entity2);
+    }
+
+    #[test]
+    fn test_try_from() {
+        let entity = RepoEntity {
+            owner: "arv-anshul".into(),
+            name: "thrust".into(),
+        };
+        let entity2 = RepoEntity::try_from("arv-anshul/thrust").unwrap();
+        assert_eq!(entity, entity2);
+    }
+
+    #[test]
+    fn test_bad_entity() {
+        assert!(RepoEntity::try_from("arv-anshul/thrust/main").is_err());
+        assert!(RepoEntity::from_url("https://github.com/arv-anshul/thrust/main").is_err());
     }
 }

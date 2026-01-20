@@ -29,11 +29,13 @@ Just learning Rust and concepts from this project.
   - [x] Implement table relationship.
   - [x] Implement cascade delete for `repo_releases` table.
 - [x] Use **Clippy** for linting.
-- [ ] Introduce Rust lifetime to struct.
+- [x] Introduce Rust lifetime to struct.
 - [ ] Async implementation.
   - I don't think it's possible with this project, as `diesel` doesn't supports it right now. Although, I can use
     `reqwest` in place of `ureq` for async feature. I'll see.
 - Refactor project.
-  - [ ] `tabled`: Table creation and displaying.
-  - [ ] Database tables and Serde models.
-  - [ ] `crate::ops::*` crate functions.
+  - [x] `tabled`: Table creation and displaying.
+  - [x] Database tables and Serde models.
+  - [x] `crate::ops::*` crate functions.
+- [ ] Write tests.
+- [ ] Publish `rlog` bin from GitHub Action to repository releases. _Just like other tools._
